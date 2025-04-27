@@ -2,6 +2,15 @@ package models
 
 // ENDPOINTS
 
+// /receipts/process
+type ProcessResponse struct {
+	id string
+}
+
+func NewProcessResponse(id string) ProcessResponse {
+	return ProcessResponse{id: id}
+}
+
 // /receipts/{id}/points
 type PointsResponse struct {
 	points int
@@ -13,20 +22,18 @@ func NewPointsResponse(points int) PointsResponse {
 
 // ERROR RESPONSES
 
-// Bad Request
-type BadRequest struct {
+type Error struct {
 	description string
 }
 
-func NewBadRequest() BadRequest {
-	return BadRequest{description: "The receipt is invalid."}
+func NewBadRequest() Error {
+	return Error{description: "The receipt is invalid."}
 }
 
-// Not Found
-type NotFound struct {
-	description string
+func NewNotFound() Error {
+	return Error{description: "No receipt found for that ID."}
 }
 
-func NewNotFound() NotFound {
-	return NotFound{description: "No receipt found for that ID."}
+func NewError(err string) Error {
+	return Error{description: err}
 }

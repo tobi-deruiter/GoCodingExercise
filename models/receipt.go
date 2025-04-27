@@ -1,24 +1,47 @@
 package models
 
+// DATA MODELS
 // Receipt
 type Receipt struct {
-	retailer     string
-	purchaseDate string
-	purchaseTime string
-	items        []Item
+	id           string
 	points       int
+	Retailer     string `json:"retailer"`
+	PurchaseDate string `json:"purchaseDate"`
+	PurchaseTime string `json:"purchaseTime"`
+	Items        []Item `json:"items"`
+	Total        string `json:"total"`
 }
 
-func NewReceipt(r string, pd string, pt string, i []Item, p int) Receipt {
-	return Receipt{retailer: r, purchaseDate: pd, purchaseTime: pt, items: i, points: p}
+func (r Receipt) Id() string {
+	return r.id
+}
+
+func (r Receipt) Points() int {
+	return r.points
+}
+
+func (r Receipt) SetId(id string) {
+	r.id = id
+}
+
+func (r Receipt) SetPoints(points int) {
+	r.points = points
 }
 
 // Item
 type Item struct {
-	shortDescription string
-	price            string
+	ShortDescription string `json:"shortDescription"`
+	Price            string `json:"price"`
 }
 
-func NewItem(shortDescription string, price string) Item {
-	return Item{shortDescription: shortDescription, price: price}
+// Variables
+var receipts []Receipt // list of all reciepts
+
+// Receipt list handlers
+func GetReceipts() []Receipt {
+	return receipts
+}
+
+func AddReceipt(r Receipt) {
+	receipts = append(receipts, r)
 }
