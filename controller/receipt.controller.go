@@ -3,6 +3,7 @@ package controller
 import (
 	"GoCodingExercise/models"
 	"math"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -10,13 +11,18 @@ import (
 // Post Requests
 
 func ProcessReceipt(receipt models.Receipt) models.ProcessResponse {
-	receipt.SetId(strconv.Itoa(len(models.GetReceipts()) + 1)) // set ID to index in receipts for simplicity
+	receipt = receipt.SetId(strconv.Itoa(len(models.GetReceipts()) + 1)) // set ID to index in receipts for simplicity
 
 	// Set receipt points based on data
 	var points int
 
 	// One point for every alphanumeric character in the retailer name.
-	points += len(receipt.Retailer)
+	re_alphanum := regexp.MustCompile(`[[:alnum:]]`)
+	for i, _ := range receipt.Retailer {
+		if re_alphanum.FindString(string(receipt.Retailer[i])) != "" {
+			points++
+		}
+	}
 
 	// 50 points if the total is a round dollar amount with no cents.
 	if strings.Split(receipt.Total, ".")[1] == "00" {
@@ -46,11 +52,11 @@ func ProcessReceipt(receipt models.Receipt) models.ProcessResponse {
 	}
 
 	// 10 points if the time of purchase is after 2:00pm and before 4:00pm.
-	if hour, _ := strconv.Atoi(strings.Split(receipt.PurchaseTime, ":")[0]); hour > 14 && hour < 16 {
+	if hour, _ := strconv.Atoi(strings.Split(receipt.PurchaseTime, ":")[0]); hour >= 14 && hour <= 16 {
 		points += 10
 	}
 
-	receipt.SetPoints(points)
+	receipt = receipt.SetPoints(points)
 
 	// add processed receipt to list
 	models.AddReceipt(receipt)
