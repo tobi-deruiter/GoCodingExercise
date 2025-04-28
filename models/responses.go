@@ -4,36 +4,36 @@ package models
 
 // /receipts/process
 type ProcessResponse struct {
-	id string
+	Id string `json:"id"`
 }
 
 func NewProcessResponse(id string) ProcessResponse {
-	return ProcessResponse{id: id}
+	return ProcessResponse{Id: id}
 }
 
 // /receipts/{id}/points
 type PointsResponse struct {
-	points int
+	Points int `json:"points"`
 }
 
 func NewPointsResponse(points int) PointsResponse {
-	return PointsResponse{points: points}
+	return PointsResponse{Points: points}
 }
 
 // ERROR RESPONSES
 
 type Error struct {
-	description string
+	Description string `json:"description"`
 }
 
 func NewBadRequest() Error {
-	return Error{description: "The receipt is invalid."}
+	return Error{Description: "The receipt is invalid."}
 }
 
 func NewNotFound() Error {
-	return Error{description: "No receipt found for that ID."}
+	return Error{Description: "No receipt found for that ID."}
 }
 
 func NewError(err string) Error {
-	return Error{description: err}
+	return Error{Description: err}
 }
