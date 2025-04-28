@@ -20,12 +20,14 @@ func (r Receipt) Points() int {
 	return r.points
 }
 
-func (r Receipt) SetId(id string) {
+func (r Receipt) SetId(id string) Receipt {
 	r.id = id
+	return r
 }
 
-func (r Receipt) SetPoints(points int) {
+func (r Receipt) SetPoints(points int) Receipt {
 	r.points = points
+	return r
 }
 
 // Item
